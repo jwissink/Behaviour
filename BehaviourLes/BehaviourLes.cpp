@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <time.h>
-#include <list>
+#include <vector>
 #include <vector>
 #include <string>
 #include "Character.h"
@@ -15,19 +15,19 @@ double delay = 1.5;
 double previousFrameTime = 0.0;
 int maxWidth = 100;
 std::vector<std::string> scene;
-
+bool running = true;
 int main()
 {
 	//Characters aanmaken
-	Character player(Character::AvailableBehaviours::IDLE, 0, "E");
-	Character enemy(Character::AvailableBehaviours::CHASE, 10, "C", &player);
+	Character player(Character::AvailableBehaviours::IDLE, 20, "E");
+	Character enemy(Character::AvailableBehaviours::CHASE, 40, "C", &player);
 
 	//Game mechanics activeren
 	player.SetTarget(&enemy);
 	player.Setbehaviour(Character::AvailableBehaviours::EVADE);
 
 	//alle spelers in een lijst
-	std::list<Character*> characters{ &player, &enemy };
+	std::vector<Character*> characters{ &player, &enemy };
 
 	//een scene van 100 breed aanmaken
 	scene.resize(50);
@@ -36,7 +36,7 @@ int main()
 	
 	previousFrameTime = clock();
 	//de game zelf
-	while (true) {
+	while (running) {
 		//een eigen timer
 		if ((clock() - previousFrameTime) / CLOCKS_PER_SEC >= delay) {
 			std::fill(scene.begin(), scene.end(), "_");
@@ -52,7 +52,12 @@ int main()
 
 			previousFrameTime = clock();
 		}
+		if (characters.at(0)->GetPosition() == characters.at(1)->GetPosition()) {
+			std::cout << "\nGAME OVER\nPress ENTER to quit" << std::endl;
+			running = false;
+		}
 	}
+	std::cin.get();
 }
 
 
