@@ -1,6 +1,6 @@
 #include "Character.h"
 
-Character::Character(AvailableBehaviours aStartBehaviour, int aStartPosition, std::string anIcon, Character* aTarget)
+Character::Character(AvailableBehaviours aStartBehaviour, Vector2 aStartPosition, std::string anIcon, Character* aTarget)
 	:position(aStartPosition), icon(anIcon), currentBehaviour(new Behaviour()), target(aTarget)
 {
 	if (aTarget) {
@@ -47,7 +47,7 @@ void Character::Setbehaviour(AvailableBehaviours aBehaviour)
 	}
 }
 
-int Character::Update()
+Vector2 Character::Update()
 {
 	if (target && currentBehaviour) {
 		position = currentBehaviour->Update(position, target->GetPosition());
@@ -55,10 +55,12 @@ int Character::Update()
 	return position;
 }
 
-int Character::GetPosition()
+Vector2 Character::GetPosition()
 {
 	return position;
 }
+
+
 
 std::string Character::GetIcon()
 {

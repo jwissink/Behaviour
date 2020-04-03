@@ -9,14 +9,20 @@ ChaseBehaviour::~ChaseBehaviour()
 {
 }
 
-int ChaseBehaviour::Update(int ownPosition, int targetPosition, int minPosition, int maxPosition)
+Vector2 ChaseBehaviour::Update(Vector2 ownPosition, Vector2 targetPosition, Vector2 minPosition, Vector2 maxPosition)
 {
-
-	if (ownPosition < targetPosition && ownPosition < maxPosition) {
-		return ownPosition+1;
+	if (ownPosition.GetX() < targetPosition.GetX() && (ownPosition.GetX() > minPosition.GetX())) {
+		ownPosition = Vector2(ownPosition.GetX() + 1, ownPosition.GetY());
 	}
-	else if (ownPosition > targetPosition && ownPosition > minPosition) {
-		return ownPosition-1;
+	else if (ownPosition.GetX() > targetPosition.GetX() && (ownPosition.GetX() < maxPosition.GetX())) {
+		ownPosition = Vector2(ownPosition.GetX() - 1, ownPosition.GetY());
+	}
+	else if (ownPosition.GetY() < targetPosition.GetY() && (ownPosition.GetY() > minPosition.GetY())) {
+		ownPosition = Vector2(ownPosition.GetX(), ownPosition.GetY() +1 );
+	}
+	else if (ownPosition.GetY() > targetPosition.GetY() && (ownPosition.GetY() < maxPosition.GetY())) {
+		ownPosition = Vector2(ownPosition.GetX(), ownPosition.GetY() - 1);
 	}
 	return ownPosition;
+
 }
